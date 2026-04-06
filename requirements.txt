@@ -1,0 +1,7 @@
+openmeteo-requests
+requests-cache
+pandas
+geocoder
+retry-requests
+requests
+packaging

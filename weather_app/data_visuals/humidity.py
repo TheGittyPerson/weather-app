@@ -1,0 +1,123 @@
+"""A module to manage weather humidity visualization."""
+
+import tkinter as tk
+from datetime import datetime, timedelta
+
+from ..gui_settings import GUISettings
+
+
+class Humidity:
+    def __init__(self, gui):
+        """Initialize self."""
+        self.gui = gui
+        self.settings = GUISettings()
+
+    def draw_humidity(self):
+        """Draw humidity labels to the screen."""
+        humidities, average_humidities = self._get_humidity()
+
+        for day_num, humidity in enumerate(humidities):
+
+            humidity_posx = ((day_num + 0.5)
+                          * (self.settings.window_width // self.settings.forecast_days))
+            humidity_level_posx = humidity_posx + 80
+
+            self._draw_humidity_levels(average_humidities[day_num], humidity_level_posx)
+
+            humidity_label = tk.Label(
+                self.gui.root,
+                font=self.settings.humidity_font,
+                text=f'Humidity: {humidity} ({average_humidities[day_num]}%)',
+                fg=self.settings.humidity_fg,
+                bg=self.settings.humidity_bg,
+            )
+
+            humidity_label.update_idletasks()
+
+            humidity_label.place(
+                x=humidity_posx - humidity_label.winfo_reqwidth() // 2,
+                y=self.settings.humidity_posy
+            )
+
+    def _draw_humidity_levels(self, humidity: int, posx: int):
+        """Draw humidity levels (ex: very humid, moderately humid)
+         to the screen.
+         """
+        label_str, label_fg = self._get_humidity_level(humidity)
+        humidity_level_label = tk.Label(
+            self.gui.root,
+            font=self.settings.humidity_level_font,
+            text=label_str,
+            fg=label_fg,
+            bg=self.settings.humidity_bg,
+        )
+
+        humidity_level_label.update_idletasks()
+
+        humidity_level_label.place(
+            x=posx,
+            y=self.settings.humidity_level_posy,
+            anchor=self.settings.humidity_level_anchor,
+        )
+
+    def _get_humidity(self) -> tuple[list[str], list[int]]:
+        """Get the temperatures for each forecast day."""
+        humidities_str = []
+        humidities_avg = []
+
+        hourly_data = []
+        for v in self.gui.fetcher.hourly_data['relative_humidity_2m']:
+            hourly_data.append(round(float(v)))
+
+        timestamps = []
+        for timestamp in self.gui.fetcher.hourly_data['date']:
+            timestamps.append(str(timestamp))
+
+        for day_num in range(self.settings.forecast_days):
+
+            date = self._get_date(day_num)
+
+            today_indices = [i for i, s in enumerate(timestamps) if s.startswith(date)]
+
+            current_lp_hourly_data = [hourly_data[i] for i in today_indices]
+
+            humidities_avg.append(round(sum(current_lp_hourly_data) / len(current_lp_hourly_data)))
+            humidities_str.append(f'{min(current_lp_hourly_data)}-{max(current_lp_hourly_data)}%')
+
+        self._check_list(humidities_str)
+        self._check_list(humidities_avg)
+
+        return humidities_str, humidities_avg
+
+    @staticmethod
+    def _get_date(days_offset: int) -> str:
+        """Gate date based on day offset from today"""
+        today = datetime.today()
+        future_date = today + timedelta(days=days_offset)
+        return str(future_date.strftime('%Y-%m-%d'))
+
+    @staticmethod
+    def _get_humidity_level(humidity: int) -> tuple[str, str]:
+        """Get humidity level (ex: very humid, moderately humid)
+         based on humidity percentage
+         """
+        if humidity <= 20:
+            return 'Very Low', 'red'
+        if 20 < humidity <= 30:
+            return 'Low', 'red'
+        if 30 < humidity < 40:
+            return 'Moderately Low', 'yellow'
+        if 40 <= humidity <= 60:
+            return 'Moderate', 'green'
+        if 60 < humidity <= 70:
+            return 'Moderately High', 'yellow'
+        if 70 < humidity < 80:
+            return 'High', 'red'
+        if 80 <= humidity:
+            return 'Very High', 'red'
+
+    def _check_list(self, list_: list[str | int]):
+        """Check if list is valid."""
+        if len(list_) != self.settings.forecast_days:
+            raise RuntimeError('Unable to fetch humidity for all 5 days.'
+                               f' (humidity: {list_})')
