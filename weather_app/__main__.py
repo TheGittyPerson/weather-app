@@ -2,25 +2,18 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import sys
 import traceback
 import tkinter.messagebox
 
-from .utils import package_installer
+from .app_gui import AppGUI
 
 
 def main() -> None:
     """Install dependencies (if needed) and launch the GUI."""
     try:
-        requirements_path = Path(__file__).resolve().parents[1] / "requirements.txt"
-        package_installer.install_requirements(requirements_path)
-
-        from .app_gui import AppGUI
-
         weather_app = AppGUI()
         weather_app.run()
-
     except KeyboardInterrupt:
         print("\nProgram interrupted.")
         sys.exit(0)
