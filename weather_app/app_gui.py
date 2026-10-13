@@ -58,7 +58,8 @@ class AppGUI:
     def _show_loading_screen(self):
         """Display the loading screen."""
         self.loading_window = tk.Toplevel()
-        self.loading_window.attributes('-topmost', self.settings.loading_screen_topmost)
+        self.loading_window.attributes('-topmost',
+                                       self.settings.loading_screen_topmost)
         self.loading_window.title(self.settings.loading_screen_title)
 
         screen_width = self.loading_window.winfo_screenwidth()
@@ -102,11 +103,14 @@ class AppGUI:
         self.window.grid(row=0, column=0)
 
     def _draw_lines(self):
-        """Draw seperation lines to the window."""
+        """Draw separation lines to the window."""
         days = self.settings.forecast_days
-        line_positions = [self.settings.window_width // days * i for i in range(1, days)]
+        line_positions = [self.settings.window_width // days * i
+                          for i in range(1, days)]
         for x in line_positions:
-            self.window.create_line(x, 0, x, self.settings.window_height, fill='black', width=2)
+            self.window.create_line(
+                x, 0, x, self.settings.window_height, fill='black', width=2
+            )
 
     def refresh(self):
         """Refresh the weather data and graphics and update the window."""

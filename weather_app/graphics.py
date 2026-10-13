@@ -16,7 +16,8 @@ class Graphics:
         # Weather Icons
         self.clear = tk.PhotoImage(file=str(assets_dir / "clear.png"))
         self.cloudy = tk.PhotoImage(file=str(assets_dir / "cloudy.png"))
-        self.part_cloudy = tk.PhotoImage(file=str(assets_dir / "part_cloudy.png"))
+        self.part_cloudy = \
+            tk.PhotoImage(file=str(assets_dir / "part_cloudy.png"))
         self.rain_1 = tk.PhotoImage(file=str(assets_dir / "rain_1.png"))
         self.rain_2 = tk.PhotoImage(file=str(assets_dir / "rain_2.png"))
         self.rain_3 = tk.PhotoImage(file=str(assets_dir / "rain_3.png"))

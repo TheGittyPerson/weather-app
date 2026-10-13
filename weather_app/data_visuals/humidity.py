@@ -2,11 +2,13 @@
 
 import tkinter as tk
 from datetime import datetime, timedelta
+from typing import cast, Literal
 
 from ..gui_settings import GUISettings
 
 
 class Humidity:
+
     def __init__(self, gui):
         """Initialize self."""
         self.gui = gui
@@ -17,12 +19,14 @@ class Humidity:
         humidities, average_humidities = self._get_humidity()
 
         for day_num, humidity in enumerate(humidities):
-
-            humidity_posx = ((day_num + 0.5)
-                          * (self.settings.window_width // self.settings.forecast_days))
+            humidity_posx = (
+                (day_num + 0.5)
+                * (self.settings.window_width // self.settings.forecast_days)
+            )
             humidity_level_posx = humidity_posx + 80
 
-            self._draw_humidity_levels(average_humidities[day_num], humidity_level_posx)
+            self._draw_humidity_levels(average_humidities[day_num],
+                                       humidity_level_posx)
 
             humidity_label = tk.Label(
                 self.gui.root,
@@ -54,6 +58,10 @@ class Humidity:
 
         humidity_level_label.update_idletasks()
 
+        self.settings.humidity_level_anchor = cast(
+            Literal["nw", "n", "ne", "w", "center", "e", "sw", "s", "se"],
+            self.settings.humidity_level_anchor,
+        )
         humidity_level_label.place(
             x=posx,
             y=self.settings.humidity_level_posy,
@@ -74,15 +82,17 @@ class Humidity:
             timestamps.append(str(timestamp))
 
         for day_num in range(self.settings.forecast_days):
-
             date = self._get_date(day_num)
 
-            today_indices = [i for i, s in enumerate(timestamps) if s.startswith(date)]
+            today_indices = [i for i, s in enumerate(timestamps) if
+                             s.startswith(date)]
 
             current_lp_hourly_data = [hourly_data[i] for i in today_indices]
 
-            humidities_avg.append(round(sum(current_lp_hourly_data) / len(current_lp_hourly_data)))
-            humidities_str.append(f'{min(current_lp_hourly_data)}-{max(current_lp_hourly_data)}%')
+            humidities_avg.append(round(
+                sum(current_lp_hourly_data) / len(current_lp_hourly_data)))
+            humidities_str.append(
+                f'{min(current_lp_hourly_data)}-{max(current_lp_hourly_data)}%')
 
         self._check_list(humidities_str)
         self._check_list(humidities_avg)
@@ -115,6 +125,7 @@ class Humidity:
             return 'High', 'red'
         if 80 <= humidity:
             return 'Very High', 'red'
+        raise RuntimeError("Shouldn't Happen")
 
     def _check_list(self, list_: list[str | int]):
         """Check if list is valid."""

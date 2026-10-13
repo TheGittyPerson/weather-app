@@ -5,7 +5,7 @@ using the Open-Meteo API.
 
 import sys
 import tkinter.messagebox
-
+from typing import TYPE_CHECKING
 
 import openmeteo_requests
 import requests_cache
@@ -15,6 +15,10 @@ from retry_requests import retry
 import requests.exceptions
 
 from .gui_settings import GUISettings
+
+if TYPE_CHECKING:
+    from openmeteo_sdk.VariablesWithTime import VariablesWithTime
+    from openmeteo_sdk.VariableWithValues import VariableWithValues
 
 
 class DataFetcher:
@@ -35,6 +39,7 @@ class DataFetcher:
             cache_session = requests_cache.CachedSession('.cache',
                                                          expire_after=3600)
             retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+            # noinspection bad-argument-type
             openmeteo = openmeteo_requests.Client(session=retry_session)
             
             self.url = 'https://api.open-meteo.com/v1/forecast'
@@ -88,8 +93,8 @@ class DataFetcher:
                 )
                 sys.exit(1)
             
-            hourly_relative_humidity_2m = hourly.Variables(0).ValuesAsNumpy()
-            hourly_surface_pressure = hourly.Variables(1).ValuesAsNumpy()
+            hourly_relative_humidity_2m = self._get_vars_as_numpy(hourly, 0)
+            hourly_surface_pressure = self._get_vars_as_numpy(hourly, 1)
             
             self.hourly_data = {
                 'date': pd.date_range(
@@ -114,19 +119,19 @@ class DataFetcher:
                     "\n\nTry again later."
                 )
                 sys.exit(1)
-            
-            daily_weather_code = daily.Variables(0).ValuesAsNumpy()
-            daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()
-            daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()
-            daily_apparent_temperature_max = daily.Variables(3).ValuesAsNumpy()
-            daily_apparent_temperature_min = daily.Variables(4).ValuesAsNumpy()
-            daily_precipitation_sum = daily.Variables(5).ValuesAsNumpy()
-            daily_precipitation_hours = daily.Variables(6).ValuesAsNumpy()
-            daily_precipitation_probability_mean = (
-                daily.Variables(7).ValuesAsNumpy()
-            )
-            daily_uv_index_max = daily.Variables(8).ValuesAsNumpy()
-            daily_wind_speed_10m_max = daily.Variables(9).ValuesAsNumpy()
+
+            (
+                daily_weather_code,
+                daily_temperature_2m_max,
+                daily_temperature_2m_min,
+                daily_apparent_temperature_max,
+                daily_apparent_temperature_min,
+                daily_precipitation_sum,
+                daily_precipitation_hours,
+                daily_precipitation_probability_mean,
+                daily_uv_index_max,
+                daily_wind_speed_10m_max,
+            ) = [self._get_vars_as_numpy(daily, i) for i in range(10)]
             
             self.daily_data = {
                 'date': pd.date_range(
@@ -191,8 +196,17 @@ class DataFetcher:
                 "\n\nPlease try again."
             )
             sys.exit(1)
+
+    @staticmethod
+    def _get_vars_as_numpy(variables: VariablesWithTime, i: int):
+        """Fetch a specific variable from the given ``VariablesWithTime``.
+
+        Should return an empty numpy array if not found or unavailable
+        I think? This was written to shut up the type checker.
+        """
+        return (variables.Variables(i) or VariableWithValues()).ValuesAsNumpy()
     
-    def _get_coordinates(self):
+    def _get_coordinates(self) -> tuple[float, float]:
         """Find location information using IP address."""
         coordinates = geocoder.ip('me')
         if coordinates.latlng:

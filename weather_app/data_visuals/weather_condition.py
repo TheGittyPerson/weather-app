@@ -17,8 +17,10 @@ class WeatherCondition:
         """Draw the weather icons to the screen."""
         icons = self._get_weather_icons()
         for day_num, icon in enumerate(icons):
-            x_position = ((day_num + 0.5)
-                          * (self.settings.window_width // self.settings.forecast_days))
+            x_position = (
+                (day_num + 0.5) * (self.settings.window_width //
+                                   self.settings.forecast_days)
+            )
             temp_iconlabel = tk.Label(
                 self.gui.root,
                 bg=self.settings.icons_bg,
@@ -32,8 +34,10 @@ class WeatherCondition:
     def draw_weather_descriptions(self):
         descriptions = self._get_weather_descriptions()
         for day_num, des in enumerate(descriptions):
-            x_position = ((day_num + 0.5)
-                          * (self.settings.window_width // self.settings.forecast_days))
+            x_position = (
+                (day_num + 0.5) * (self.settings.window_width //
+                                   self.settings.forecast_days)
+            )
 
             des_label = tk.Label(
                 self.gui.root,
@@ -82,11 +86,15 @@ class WeatherCondition:
         """Fetch the weather code for each forecast day."""
         weather_codes = []
         for day in range(self.settings.forecast_days):
-            weather_codes.append(self.gui.fetcher.daily_data['weather_code'][day])
+            weather_codes.append(
+                self.gui.fetcher.daily_data['weather_code'][day]
+            )
         return weather_codes
 
     def _check_list(self, icons_list: list[tk.PhotoImage | str]):
         """Check if the icons or descriptions list is valid."""
         if len(icons_list) != self.settings.forecast_days:
-            raise RuntimeError(f"Unable to find weather icon for the provided weather code. "
-                               f"(icons list length: {len(icons_list)})")
+            raise RuntimeError(
+                "Unable to find weather icon for the provided weather code. "
+                f"(icons list length: {len(icons_list)})"
+            )

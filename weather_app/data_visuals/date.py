@@ -15,7 +15,8 @@ class Date:
         dates = self._get_dates()
         for i, date in enumerate(dates):
             self.gui.window.create_text(
-                (i + 0.5) * (self.settings.window_width // self.settings.forecast_days),
+                (i + 0.5) * (self.settings.window_width
+                             // self.settings.forecast_days),
                 self.settings.date_posy,
                 text=self._get_formatted_date(date),
                 font=self.settings.date_font,

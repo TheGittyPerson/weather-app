@@ -69,7 +69,8 @@ class Temperature:
                 bg=self.settings.temperature_bg,
             )
 
-            temp_types = [max_amb_temp, min_amb_temp, max_app_temp, min_app_temp]
+            temp_types = \
+                [max_amb_temp, min_amb_temp, max_app_temp, min_app_temp]
             for temp in temp_types:
                 temp.update_idletasks()
 
@@ -143,10 +144,14 @@ class Temperature:
         """Get the temperatures for each forecast day."""
         temperatures = []
         for day in range(self.settings.forecast_days):
-            max_amb_temp = self.gui.fetcher.daily_data['temperature_2m_max'][day]
-            min_amb_temp = self.gui.fetcher.daily_data['temperature_2m_min'][day]
-            max_app_temp = self.gui.fetcher.daily_data['apparent_temperature_max'][day]
-            min_app_temp = self.gui.fetcher.daily_data['apparent_temperature_min'][day]
+            max_amb_temp = (
+                self.gui.fetcher.daily_data)['temperature_2m_max'][day]
+            min_amb_temp = (
+                self.gui.fetcher.daily_data)['temperature_2m_min'][day]
+            max_app_temp = (
+                self.gui.fetcher.daily_data)['apparent_temperature_max'][day]
+            min_app_temp = (
+                self.gui.fetcher.daily_data)['apparent_temperature_min'][day]
             temperatures.append({
                 'max_amb_temp': round(max_amb_temp),
                 'min_amb_temp': round(min_amb_temp),
