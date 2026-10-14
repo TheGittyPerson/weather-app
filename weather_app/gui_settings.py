@@ -80,6 +80,7 @@ class GUISettings:
         # Date labels
         self.date_font = ('Malgun Gothic', 15, 'bold')
         self.date_posy = 20
+        self.date_color = 'black'
 
         # Weather icon labels
         self.icons_bg = self.theme_bg

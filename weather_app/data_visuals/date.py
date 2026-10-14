@@ -20,6 +20,7 @@ class Date:
                 self.settings.date_posy,
                 text=self._get_formatted_date(date),
                 font=self.settings.date_font,
+                fill=self.settings.date_color,
             )
 
     def _get_dates(self) -> list[str]:
