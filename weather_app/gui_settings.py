@@ -15,7 +15,6 @@ class GUISettings:
 
         # General
         self.title = 'Python WeatherApp'
-        self.version = '2024.1.1'
         self.theme_bg = '#daf0ff'
 
         # Forecast
