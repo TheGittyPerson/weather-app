@@ -14,10 +14,10 @@ from .data_fetcher import DataFetcher
 from .gui_settings import GUISettings
 from .graphics import Graphics
 from .buttons.refresh_button import RefreshButton
-from .data_visuals.date import Date
-from .data_visuals.weather_condition import WeatherCondition
-from .data_visuals.temperature import Temperature
-from .data_visuals.humidity import Humidity
+from .data_labels.date import DateLabels
+from .data_labels.weather_condition import WeatherConditionIcons
+from .data_labels.temperature import TemperatureLabels
+from .data_labels.humidity import HumidityLabels
 
 
 class AppGUI:
@@ -29,10 +29,10 @@ class AppGUI:
 
         self.settings = GUISettings()
         self.graphics = Graphics()
-        self.dates = Date(self)
-        self.icons = WeatherCondition(self)
-        self.temperature = Temperature(self)
-        self.humidity = Humidity(self)
+        self.dates = DateLabels(self)
+        self.weather_conditions = WeatherConditionIcons(self)
+        self.temperature = TemperatureLabels(self)
+        self.humidity = HumidityLabels(self)
 
         self.loading_window = None
         self._show_loading_screen()
@@ -54,11 +54,11 @@ class AppGUI:
     def _draw_elements(self):
         """Draw visual elements to the screen."""
         self._draw_lines()
-        self.dates.draw_dates()
-        self.icons.draw_weather_icons()
-        self.icons.draw_weather_descriptions()
-        self.temperature.draw_temperatures()
-        self.humidity.draw_humidity()
+        for labels in [self.dates,
+                       self.weather_conditions,
+                       self.temperature,
+                       self.humidity]:
+            labels.draw()
         self.refresh_button = RefreshButton(self)
 
     def _show_loading_screen(self):

@@ -7,14 +7,14 @@ import tkinter as tk
 from ..gui_settings import GUISettings
 
 
-class WeatherCondition:
+class WeatherConditionIcons:
     def __init__(self, gui):
         """Initalize self."""
         self.gui = gui
         self.settings = GUISettings()
 
     def draw_weather_icons(self):
-        """Draw the weather icons to the screen."""
+        """Draw the weather weather_conditions to the screen."""
         icons = self._get_weather_icons()
         for day_num, icon in enumerate(icons):
             x_position = (
@@ -55,7 +55,7 @@ class WeatherCondition:
             )
 
     def _get_weather_icons(self) -> list[tk.PhotoImage]:
-        """Get the weather icons (as tk.PhotoImage objects)
+        """Get the weather weather_conditions (as tk.PhotoImage objects)
          for each forecast day.
          """
         weather_icons = []
@@ -92,9 +92,9 @@ class WeatherCondition:
         return weather_codes
 
     def _check_list(self, icons_list: list[tk.PhotoImage | str]):
-        """Check if the icons or descriptions list is valid."""
+        """Check if the weather_conditions or descriptions list is valid."""
         if len(icons_list) != self.settings.forecast_days:
             raise RuntimeError(
                 "Unable to find weather icon for the provided weather code. "
-                f"(icons list length: {len(icons_list)})"
+                f"(weather_conditions list length: {len(icons_list)})"
             )

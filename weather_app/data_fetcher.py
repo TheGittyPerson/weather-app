@@ -22,13 +22,13 @@ if TYPE_CHECKING:
 
 
 class DataFetcher:
-    class CoordinatesError(RuntimeError):
+    class _CoordinatesError(RuntimeError):
         pass
     
-    class DailyDataError(RuntimeError):
+    class _DailyDataError(RuntimeError):
         pass
     
-    class HourlyDataError(RuntimeError):
+    class _HourlyDataError(RuntimeError):
         pass
     
     def __init__(self):
@@ -163,7 +163,7 @@ class DataFetcher:
                 "again."
             )
             sys.exit(1)
-        except self.CoordinatesError:
+        except self._CoordinatesError:
             tkinter.messagebox.showinfo(
                 "ERROR :(",
                 "Unable to fetch device coordinates."
@@ -171,13 +171,13 @@ class DataFetcher:
                 "again."
             )
             sys.exit(1)
-        except self.DailyDataError as e:
+        except self._DailyDataError as e:
             tkinter.messagebox.showinfo(
                 "ERROR :(",
                 f"Unable to fetch daily weather info. (daily_data: {e})"
                 "\n\nPlease try again."
             )
-        except self.HourlyDataError as e:
+        except self._HourlyDataError as e:
             tkinter.messagebox.showinfo(
                 "ERROR :(",
                 f"Unable to fetch hourly weather info. (hourly_data: {e})"
@@ -214,4 +214,4 @@ class DataFetcher:
             lat, lng = coordinates.latlng
             return lat, lng
         else:
-            raise self.CoordinatesError
+            raise self._CoordinatesError

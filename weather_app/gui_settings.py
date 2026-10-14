@@ -77,7 +77,7 @@ class GUISettings:
         self.loading_screen_height = 480
         self.loading_screen_topmost = True
 
-        # Date labels
+        # DateLabels labels
         self.date_font = ('Malgun Gothic', 15, 'bold')
         self.date_posy = 20
         self.date_color = 'black'
@@ -114,7 +114,7 @@ class GUISettings:
         self.feels_like_label_posy = self.amb_temperature_posy + 50
         self.app_temperature_posy = self.feels_like_label_posy
 
-        # Humidity
+        # HumidityLabels
         self.humidity_bg = self.theme_bg
         self.humidity_font = ('Calibri', 14)
         self.humidity_fg = 'black'

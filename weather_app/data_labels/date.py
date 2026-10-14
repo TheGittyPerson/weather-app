@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from ..gui_settings import GUISettings
 
 
-class Date:
+class DateLabels:
     def __init__(self, gui):
         self.gui = gui
         self.settings = GUISettings()

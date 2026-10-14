@@ -9,13 +9,13 @@ if TYPE_CHECKING:
     from ..app_gui import AppGUI
 
 
-class Temperature:
+class TemperatureLabels:
     def __init__(self, gui: AppGUI):
         """Initialize self."""
         self.gui = gui
         self.settings = GUISettings()
 
-    def draw_temperatures(self):
+    def draw(self):
         """Draw temperature information to the screen."""
         temperatures = self._get_temperatures()
         for day_num, temps in enumerate(temperatures):
