@@ -61,7 +61,7 @@ class DataFetcher:
                 'uv_index_max',
                 'wind_speed_10m_max',
             ]
-            
+
             self.latitude, self.longitude = self._get_coordinates()
             self.forecast_days = self.settings.forecast_days
             params = {
@@ -159,15 +159,16 @@ class DataFetcher:
             tkinter.messagebox.showinfo(
                 "ERROR :(",
                 "Unable to retrieve weather data."
-                "\n\nPlease check your Internet connection and try again."
+                "\n\nEnsure you have a stable Internet connection and try "
+                "again."
             )
             sys.exit(1)
         except self.CoordinatesError:
             tkinter.messagebox.showinfo(
                 "ERROR :(",
                 "Unable to fetch device coordinates."
-                "\n\nPlease make sure that the program has permission to "
-                "access your location."
+                "\n\nEnsure you have a stable Internet connection and try "
+                "again."
             )
             sys.exit(1)
         except self.DailyDataError as e:

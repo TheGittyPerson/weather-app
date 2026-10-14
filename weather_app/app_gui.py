@@ -27,7 +27,6 @@ class AppGUI:
         self.root = tk.Tk()
         self.root.withdraw()
 
-        self.fetcher = DataFetcher()
         self.settings = GUISettings()
         self.graphics = Graphics()
         self.dates = Date(self)
@@ -35,7 +34,14 @@ class AppGUI:
         self.temperature = Temperature(self)
         self.humidity = Humidity(self)
 
+        self.loading_window = None
         self._show_loading_screen()
+
+        self.fetcher = DataFetcher()
+
+        sleep(1)  # I put a lot of effort into designing the loading screen
+        self._destroy_loading_screen()
+
         print("Welcome to the Python WeatherApp!")
 
     def run(self):
@@ -80,8 +86,8 @@ class AppGUI:
 
         self.loading_window.update()
 
-        sleep(self.settings.loading_screen_duration)
-
+    def _destroy_loading_screen(self):
+        """Destroy the loading screen."""
         self.loading_window.destroy()
 
     def _show_window(self):

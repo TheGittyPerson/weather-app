@@ -76,7 +76,6 @@ class GUISettings:
         self.loading_screen_width = 800
         self.loading_screen_height = 480
         self.loading_screen_topmost = True
-        self.loading_screen_duration = 3
 
         # Date labels
         self.date_font = ('Malgun Gothic', 15, 'bold')
@@ -120,8 +119,8 @@ class GUISettings:
         self.humidity_fg = 'black'
         self.humidity_posy = self.app_temperature_posy + 40
         self.humidity_level_font = ('Gill Sans MT', 13, 'bold')
-        self.humidity_level_anchor = 'e'
-        self.humidity_level_posy = self.humidity_posy + 35
+        self.humidity_level_anchor = 'center'
+        self.humidity_level_posy = self.humidity_posy + 60
 
         # Refresh icon
         self.refresh_icon_posx = self.window_width - 40

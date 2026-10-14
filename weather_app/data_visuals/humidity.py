@@ -23,7 +23,7 @@ class Humidity:
                 (day_num + 0.5)
                 * (self.settings.window_width // self.settings.forecast_days)
             )
-            humidity_level_posx = humidity_posx + 80
+            humidity_level_posx = humidity_posx
 
             self._draw_humidity_levels(average_humidities[day_num],
                                        humidity_level_posx)
@@ -31,7 +31,7 @@ class Humidity:
             humidity_label = tk.Label(
                 self.gui.root,
                 font=self.settings.humidity_font,
-                text=f'Humidity: {humidity} ({average_humidities[day_num]}%)',
+                text=f'Humidity:\n{humidity} ({average_humidities[day_num]}%)',
                 fg=self.settings.humidity_fg,
                 bg=self.settings.humidity_bg,
             )
