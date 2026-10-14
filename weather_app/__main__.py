@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import sys
-import traceback
-import tkinter.messagebox
 
 from .app_gui import AppGUI
 
@@ -17,14 +15,6 @@ def main() -> None:
     except KeyboardInterrupt:
         print("\nProgram interrupted.")
         sys.exit(0)
-    except Exception:
-        tkinter.messagebox.showinfo(
-            "ERROR :(",
-            "An unexpected error occurred:"
-            f"\n{traceback.format_exc()}"
-            "\n\nPlease try again."
-        )
-        sys.exit(1)
 
 
 if __name__ == "__main__":
