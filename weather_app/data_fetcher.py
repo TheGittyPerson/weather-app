@@ -93,8 +93,8 @@ class DataFetcher:
                 )
                 sys.exit(1)
             
-            hourly_relative_humidity_2m = self._get_vars_as_numpy(hourly, 0)
-            hourly_surface_pressure = self._get_vars_as_numpy(hourly, 1)
+            hourly_relative_humidity_2m = self._get_vars_as_list(hourly, 0)
+            hourly_surface_pressure = self._get_vars_as_list(hourly, 1)
             
             self.hourly_data = {
                 'date': pd.date_range(
@@ -131,7 +131,7 @@ class DataFetcher:
                 daily_precipitation_probability_mean,
                 daily_uv_index_max,
                 daily_wind_speed_10m_max,
-            ) = [self._get_vars_as_numpy(daily, i) for i in range(10)]
+            ) = [self._get_vars_as_list(daily, i) for i in range(10)]
             
             self.daily_data = {
                 'date': pd.date_range(
@@ -152,9 +152,7 @@ class DataFetcher:
                     daily_precipitation_probability_mean,
                 'wind_speed_10m_max': daily_wind_speed_10m_max
             }
-            
-            self.daily_dataframe = pd.DataFrame(data=self.daily_data)
-        
+
         except requests.exceptions.ConnectionError:
             tkinter.messagebox.showinfo(
                 "ERROR :(",
@@ -199,13 +197,14 @@ class DataFetcher:
             sys.exit(1)
 
     @staticmethod
-    def _get_vars_as_numpy(variables: VariablesWithTime, i: int):
+    def _get_vars_as_list(variables: VariablesWithTime, i: int) -> list:
         """Fetch a specific variable from the given ``VariablesWithTime``.
 
-        Should return an empty numpy array if not found or unavailable
-        I think? This was written to shut up the type checker.
+        Should return an empty list if not found or unavailable, I think?
         """
-        return (variables.Variables(i) or VariableWithValues()).ValuesAsNumpy()
+        return list(
+            (variables.Variables(i) or VariableWithValues()).ValuesAsNumpy()
+        )
     
     def _get_coordinates(self) -> tuple[float, float]:
         """Find location information using IP address."""

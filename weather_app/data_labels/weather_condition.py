@@ -13,6 +13,11 @@ class WeatherConditionIcons:
         self.gui = gui
         self.settings = GUISettings()
 
+    def draw(self):
+        """Draw the weather icons and descriptions."""
+        self.draw_weather_icons()
+        self.draw_weather_descriptions()
+
     def draw_weather_icons(self):
         """Draw the weather weather_conditions to the screen."""
         icons = self._get_weather_icons()

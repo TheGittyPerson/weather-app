@@ -10,18 +10,19 @@ if TYPE_CHECKING:
 
 
 class DataLabels(ABC):
-    def __init__(self, gui: AppGUI):
+    def __init__(self, gui: AppGUI) -> None:
         """Initialize Settings instance and reference to GUI."""
         self.gui = gui
         self.settings = GUISettings()
 
-    def draw(self):
+    def draw(self) -> None:
         """Draw data for all dates to screen."""
         raise NotImplementedError
 
     def _check_list(self, ls: list) -> None:
-        """Check if the given list contains enough data.
+        """Check if the given list contains enough data after extracting.
 
+        Call this write before returning the final values in the get() methods.
         Should raise a RuntimeError if not.
         """
         raise NotImplementedError

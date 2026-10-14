@@ -64,7 +64,7 @@ class GUISettings:
 
         # Window
         self.window_bg = self.theme_bg
-        self.window_width = self.forecast_days * 200
+        self.window_width = self.forecast_days * 230
         self.window_height = 600
         self.window_relief = 'raised'
         self.window_width_resizable = False
@@ -73,7 +73,7 @@ class GUISettings:
 
         # Loading window
         self.loading_screen_title = "Please Wait..."
-        self.loading_screen_width = 800
+        self.loading_screen_width = 800  # TODO: why app breaks when changed?
         self.loading_screen_height = 480
         self.loading_screen_topmost = True
 
@@ -114,14 +114,21 @@ class GUISettings:
         self.feels_like_label_posy = self.amb_temperature_posy + 50
         self.app_temperature_posy = self.feels_like_label_posy
 
-        # HumidityLabels
+        # Humidity
         self.humidity_bg = self.theme_bg
         self.humidity_font = ('Calibri', 14)
         self.humidity_fg = 'black'
         self.humidity_posy = self.app_temperature_posy + 40
-        self.humidity_level_font = ('Gill Sans MT', 13, 'bold')
-        self.humidity_level_anchor = 'center'
-        self.humidity_level_posy = self.humidity_posy + 60
+        self.humidity_sev_font = ('Gill Sans MT', 13, 'bold')
+        self.humidity_sev_anchor = 'center'
+        self.humidity_sev_posy = self.humidity_posy + 60
+
+        # Precipitation
+        self.precip_prob_threshold = 5  # percent
+        self.precip_bg = self.theme_bg
+        self.precip_font = ('Calibri', 14)
+        self.precip_fg = 'black'
+        self.precip_posy = self.humidity_sev_posy + 40
 
         # Refresh icon
         self.refresh_icon_posx = self.window_width - 40

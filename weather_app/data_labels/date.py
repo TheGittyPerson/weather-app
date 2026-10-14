@@ -10,7 +10,7 @@ class DateLabels:
         self.gui = gui
         self.settings = GUISettings()
 
-    def draw_dates(self):
+    def draw(self):
         """Display dates in the window."""
         dates = self._get_dates()
         for i, date in enumerate(dates):

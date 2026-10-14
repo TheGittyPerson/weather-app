@@ -93,8 +93,7 @@ class TemperatureLabels:
 
     def _draw_max_min_labels(self,
                              max_amb_temp_posx: int,
-                             min_amb_temp_posx: int,
-                             ):
+                             min_amb_temp_posx: int,) -> None:
         """Draw the text labels "MAX" and "MIN" above the temperatures."""
         max_label = tk.Label(
             self.gui.root,
@@ -124,8 +123,7 @@ class TemperatureLabels:
         )
 
     def _draw_feels_like_label(self,
-                               posx: int
-                               ):
+                               posx: int):
         feels_like_label = tk.Label(
             self.gui.root,
             font=self.settings.feels_like_label_font,

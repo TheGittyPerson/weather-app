@@ -1,8 +1,6 @@
 """A module to manage weather humidity visualization."""
 
 import tkinter as tk
-from datetime import datetime, timedelta
-from typing import cast, Literal
 
 from .data_labels import DataLabels
 
@@ -12,102 +10,71 @@ class PrecipitationLabels(DataLabels):
 
     def draw(self):
         """Draw precipitation data to the screen."""
-        precipitation_sums = self._precipitation_sums()
+        precip_probs = self._get_precip_probs()
+        precip_sums = self._get_precip_sums()
+        precip_hours = self._get_precip_hours()
+        for day_num, prob, sum_, hours in (
+                zip(
+                    range(self.settings.forecast_days),
+                    precip_probs,
+                    precip_sums,
+                    precip_hours
+                )):
 
-        for day_num, humidity in enumerate(humidities):
-            humidity_posx = (
-                (day_num + 0.5)
-                * (self.settings.window_width // self.settings.forecast_days)
+            posx = (
+                (day_num + 0.5) * (self.settings.window_width
+                                   // self.settings.forecast_days)
             )
-            humidity_level_posx = humidity_posx
 
-            self._draw_humidity_severity(average_humidities[day_num],
-                                         humidity_level_posx)
+            text = "Precipitation:"
+            if prob < self.settings.precip_prob_threshold:
+                text += " -"
+            else:
+                text += f"\n{prob:g}%, {sum_:g} mm, {hours:g} hrs"
 
-            humidity_label = tk.Label(
+            label = tk.Label(
                 self.gui.root,
-                font=self.settings.humidity_font,
-                text=f'HumidityLabels:\n{humidity} ({average_humidities[day_num]}%)',
-                fg=self.settings.humidity_fg,
-                bg=self.settings.humidity_bg,
+                font=self.settings.precip_font,
+                text=text,
+                fg=self.settings.precip_fg,
+                bg=self.settings.precip_bg,
             )
 
-            humidity_label.update_idletasks()
-
-            humidity_label.place(
-                x=humidity_posx - humidity_label.winfo_reqwidth() // 2,
-                y=self.settings.humidity_posy
+            label.update_idletasks()
+            label.place(
+                x=posx,
+                y=self.settings.precip_posy,
+                anchor="center"
             )
 
-    def _draw_humidity_severity(self, humidity: int, posx: int):
-        """Draw humidity severities (ex: very humid, moderately humid)
-         to the screen.
-         """
-        label_str, label_fg = self._get_humidity_severities(humidity)
-        humidity_level_label = tk.Label(
-            self.gui.root,
-            font=self.settings.humidity_level_font,
-            text=label_str,
-            fg=label_fg,
-            bg=self.settings.humidity_bg,
-        )
+    def _get_precip_probs(self) -> list[int]:
+        """Get mean precipitation probability for all days."""
+        out = self.gui.fetcher.daily_data["precipitation_probability_mean"]
+        self._check_list(out)
+        return [round(x) for x in out]
 
-        humidity_level_label.update_idletasks()
+    def _get_precip_sums(self) -> list[int]:
+        """Get the precipitation depths for each forecast day."""
+        out = self.gui.fetcher.daily_data["precipitation_sum"]
+        self._check_list(out)
+        return [round(x, 1) for x in out]
 
-        self.settings.humidity_level_anchor = cast(
-            Literal["nw", "n", "ne", "w", "center", "e", "sw", "s", "se"],
-            self.settings.humidity_level_anchor,
-        )
-        humidity_level_label.place(
-            x=posx,
-            y=self.settings.humidity_level_posy,
-            anchor=self.settings.humidity_level_anchor,
-        )
+    def _get_precip_hours(self) -> list[int]:
+        """Get number of hours it will rain for.
 
-    def _get_data(self) -> tuple[list[str], list[int]]:
-        """Get the temperatures for each forecast day."""
-        humidities_str = []
-        humidities_avg = []
+        The API docs says "rain" even though the other precipitation params
+        refer to precipitation in general.
+        """
+        out = self.gui.fetcher.daily_data["precipitation_hours"]
+        self._check_list(out)
+        return out
 
-        hourly_data = []
-        for v in self.gui.fetcher.hourly_data['relative_humidity_2m']:
-            hourly_data.append(round(float(v)))
-
-        timestamps = []
-        for timestamp in self.gui.fetcher.hourly_data['date']:
-            timestamps.append(str(timestamp))
-
-        for day_num in range(self.settings.forecast_days):
-            date = self._get_date(day_num)
-
-            today_indices = [i for i, s in enumerate(timestamps) if
-                             s.startswith(date)]
-
-            current_lp_hourly_data = [hourly_data[i] for i in today_indices]
-
-            humidities_avg.append(round(
-                sum(current_lp_hourly_data) / len(current_lp_hourly_data)))
-            humidities_str.append(
-                f'{min(current_lp_hourly_data)}-{max(current_lp_hourly_data)}%')
-
-        self._check_list(humidities_str)
-        self._check_list(humidities_avg)
-
-        return humidities_str, humidities_avg
-
-    @staticmethod
-    def _get_date(days_offset: int) -> str:
-        """Gate date based on day offset from today"""
-        today = datetime.today()
-        future_date = today + timedelta(days=days_offset)
-        return str(future_date.strftime('%Y-%m-%d'))
-
-    def _check_list(self, ls: list[str | int]) -> None:
+    def _check_list(self, ls: list[int]) -> None:
         """
         Checks:
-            - Whether humidity data is given for all requested days
+            - Whether precipitation data is given for all requested days
         """
         if len(ls) != self.settings.forecast_days:
-            raise RuntimeError('Unable to fetch humidity for all '
+            raise RuntimeError('Unable to fetch precipitation for all '
                                f'{self.settings.forecast_days} days.'
-                               f' (humidity: {ls})')
+                               f' (precipitation: {ls})')

@@ -47,7 +47,7 @@ class HumidityLabels(DataLabels):
         label_str, label_fg = self._get_humidity_severities(humidity)
         humidity_level_label = tk.Label(
             self.gui.root,
-            font=self.settings.humidity_level_font,
+            font=self.settings.humidity_sev_font,
             text=label_str,
             fg=label_fg,
             bg=self.settings.humidity_bg,
@@ -55,18 +55,18 @@ class HumidityLabels(DataLabels):
 
         humidity_level_label.update_idletasks()
 
-        self.settings.humidity_level_anchor = cast(
+        self.settings.humidity_sev_anchor = cast(
             Literal["nw", "n", "ne", "w", "center", "e", "sw", "s", "se"],
-            self.settings.humidity_level_anchor,
+            self.settings.humidity_sev_anchor,
         )
         humidity_level_label.place(
             x=posx,
-            y=self.settings.humidity_level_posy,
-            anchor=self.settings.humidity_level_anchor,
+            y=self.settings.humidity_sev_posy,
+            anchor=self.settings.humidity_sev_anchor,
         )
 
     def _get_humidity(self) -> tuple[list[str], list[int]]:
-        """Get the temperatures for each forecast day."""
+        """Get the humidity for each forecast day."""
         humidities_str = []
         humidities_avg = []
 

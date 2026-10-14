@@ -18,6 +18,7 @@ from .data_labels.date import DateLabels
 from .data_labels.weather_condition import WeatherConditionIcons
 from .data_labels.temperature import TemperatureLabels
 from .data_labels.humidity import HumidityLabels
+from .data_labels.precipitation import PrecipitationLabels
 
 
 class AppGUI:
@@ -33,14 +34,13 @@ class AppGUI:
         self.weather_conditions = WeatherConditionIcons(self)
         self.temperature = TemperatureLabels(self)
         self.humidity = HumidityLabels(self)
+        self.precipitation = PrecipitationLabels(self)
 
         self.loading_window = None
         self._show_loading_screen()
+        sleep(1)  # I put a lot of effort into designing the loading screen
 
         self.fetcher = DataFetcher()
-
-        sleep(1)  # I put a lot of effort into designing the loading screen
-        self._destroy_loading_screen()
 
         print("Welcome to the Python WeatherApp!")
 
@@ -57,9 +57,11 @@ class AppGUI:
         for labels in [self.dates,
                        self.weather_conditions,
                        self.temperature,
-                       self.humidity]:
+                       self.humidity,
+                       self.precipitation]:
             labels.draw()
         self.refresh_button = RefreshButton(self)
+        self._destroy_loading_screen()
 
     def _show_loading_screen(self):
         """Display the loading screen."""
