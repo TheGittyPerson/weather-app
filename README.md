@@ -26,3 +26,8 @@ python -m pip install -r requirements.txt
 cd <path/to/directory/weather_app>
 python -m weather_app
 ```
+
+---
+
+This was initially made when I had low code design skills. The architecture 
+is genuinely so bad. I'm so sorry.
