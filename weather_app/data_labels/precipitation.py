@@ -65,11 +65,11 @@ class PrecipitationLabels(DataLabels):
         The API docs says "rain" even though the other precipitation params
         refer to precipitation in general.
         """
-        out = self.gui.fetcher.daily_data["precipitation_hours"]
-        self._check_list(out)
-        return out
+        return self._check_list(
+            self.gui.fetcher.daily_data["precipitation_hours"]
+        )
 
-    def _check_list(self, ls: list[int]) -> None:
+    def _check_list(self, ls: list[int]) -> list[int]:
         """
         Checks:
             - Whether precipitation data is given for all requested days
@@ -78,3 +78,4 @@ class PrecipitationLabels(DataLabels):
             raise RuntimeError('Unable to fetch precipitation for all '
                                f'{self.settings.forecast_days} days.'
                                f' (precipitation: {ls})')
+        return ls

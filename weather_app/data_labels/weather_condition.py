@@ -71,9 +71,7 @@ class WeatherConditionIcons:
                 if code in codes_tuple:
                     weather_icons.append(icon)
 
-        self._check_list(weather_icons)
-
-        return weather_icons
+        return self._check_list(weather_icons)
 
     def _get_weather_descriptions(self) -> list[str]:
         """Fetch the weather descriptions for each forecast day."""
@@ -83,9 +81,7 @@ class WeatherConditionIcons:
         for code in weather_codes:
             weather_des.append(self.settings.weather_description_mapping[code])
 
-        self._check_list(weather_des)
-
-        return weather_des
+        return self._check_list(weather_des)
 
     def _get_weather_codes(self) -> list[int]:
         """Fetch the weather code for each forecast day."""
@@ -96,10 +92,11 @@ class WeatherConditionIcons:
             )
         return weather_codes
 
-    def _check_list(self, icons_list: list[tk.PhotoImage | str]):
+    def _check_list[T: (tk.PhotoImage, str)](self, ls: list[T]) -> list[T]:
         """Check if the weather_conditions or descriptions list is valid."""
-        if len(icons_list) != self.settings.forecast_days:
+        if len(ls) != self.settings.forecast_days:
             raise RuntimeError(
                 "Unable to find weather icon for the provided weather code. "
-                f"(weather_conditions list length: {len(icons_list)})"
+                f"(weather_conditions list length: {len(ls)})"
             )
+        return ls

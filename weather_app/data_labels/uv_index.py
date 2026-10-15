@@ -44,9 +44,7 @@ class UVILabels(DataLabels):
     def _get_uv_indices(self) -> list[float]:
         """Extract max UV indices for requested days."""
         out = self.gui.fetcher.daily_data["uv_index_max"]
-        out = [round(float(x), 1) for x in out]
-        self._check_list(out)
-        return out
+        return self._check_list([round(float(x), 1) for x in out])
 
     def _get_uv_severities(self, uvis: list[float]) -> list[tk.Label]:
         """Determine UV severities based on max UV indices.
@@ -81,7 +79,7 @@ class UVILabels(DataLabels):
             ) for day_num, uvi in enumerate(uvis)
         ]
 
-    def _check_list(self, ls: list[float]) -> None:
+    def _check_list(self, ls: list[float]) -> list[float]:
         """
         Checks:
             - Whether UVI data is given for all requested days
@@ -97,3 +95,4 @@ class UVILabels(DataLabels):
         ]):
             raise RuntimeError('Collected UV indices are not >= 0. '
                                f' (Got: {ls})')
+        return ls

@@ -19,9 +19,10 @@ class DataLabels(ABC):
         """Draw data for all dates to screen."""
         raise NotImplementedError
 
-    def _check_list(self, ls: list) -> None:
+    def _check_list[T](self, ls: list[T]) -> list[T]:
         """Check if the given list contains enough data after extracting.
 
+        Returns list if no issues.
         Call this write before returning the final values in the get() methods.
         Should raise a RuntimeError if not.
         """

@@ -91,10 +91,9 @@ class HumidityLabels(DataLabels):
             humidities_str.append(
                 f'{min(current_lp_hourly_data)}-{max(current_lp_hourly_data)}%')
 
-        self._check_list(humidities_str)
-        self._check_list(humidities_avg)
-
-        return humidities_str, humidities_avg
+        return (
+            self._check_list(humidities_str), self._check_list(humidities_avg)
+        )
 
     @staticmethod
     def _get_date(days_offset: int) -> str:
@@ -124,7 +123,7 @@ class HumidityLabels(DataLabels):
             return 'Very High', 'red'
         raise RuntimeError("Shouldn't Happen")
 
-    def _check_list(self, ls: list[str | int]) -> None:
+    def _check_list[T: (str, int)](self, ls: list[T]) -> list[T]:
         """
         Checks:
             - Whether humidity data is given for all requested days
@@ -133,3 +132,4 @@ class HumidityLabels(DataLabels):
             raise RuntimeError('Unable to fetch humidity for all '
                                f'{self.settings.forecast_days} days.'
                                f' (humidity: {ls})')
+        return ls

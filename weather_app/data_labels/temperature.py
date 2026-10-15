@@ -156,19 +156,20 @@ class TemperatureLabels:
                 'max_app_temp': round(max_app_temp),
                 'min_app_temp': round(min_app_temp),
             })
-        self._check_list(temperatures)
-        return temperatures
 
-    def _check_list(self, list_: list[dict[str, int]]):
+        return self._check_list(temperatures)
+
+    def _check_list(self, ls: list[dict[str, int]]) -> list[dict[str, int]]:
         """Check if list is valid."""
-        if len(list_) != self.settings.forecast_days:
+        if len(ls) != self.settings.forecast_days:
             raise RuntimeError("Unable to fetch temperatures for all 5 days. "
-                               f"(temps: {list_})")
-        for dic in list_:
+                               f"(temps: {ls})")
+        for dic in ls:
             if len(list(dic.items())) != 4:
                 raise RuntimeError("Unable to fetch all temperatures. "
-                                   f"(temps: {list_})")
+                                   f"(temps: {ls})")
             for val in dic:
                 if val is None:
                     raise RuntimeError('Unable to fetch all temperatures. '
-                                       f' (temps: {list_})')
+                                       f' (temps: {ls})')
+        return ls
