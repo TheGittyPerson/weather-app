@@ -13,14 +13,8 @@ from . import graphics
 from .data_fetcher import DataFetcher
 from .gui_settings import GUISettings
 from .graphics import Graphics
-from .buttons.refresh_button import RefreshButton
-
-from .data_labels.date import DateLabels
-from .data_labels.weather_condition import WeatherConditionIcons
-from .data_labels.temperature import TemperatureLabels
-from .data_labels.humidity import HumidityLabels
-from .data_labels.precipitation import PrecipitationLabels
-from .data_labels.uv_index import UVILabels
+from .buttons import *
+from .data_labels import *
 
 
 class AppGUI:
