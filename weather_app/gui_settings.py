@@ -65,7 +65,7 @@ class GUISettings:
         # Window
         self.window_bg = self.theme_bg
         self.window_width = self.forecast_days * 230
-        self.window_height = 600
+        self.window_height = 700
         self.window_relief = 'raised'
         self.window_width_resizable = False
         self.window_height_resizable = False

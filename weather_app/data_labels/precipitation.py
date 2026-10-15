@@ -28,9 +28,9 @@ class PrecipitationLabels(DataLabels):
 
             text = "Precipitation:"
             if prob < self.settings.precip_prob_threshold:
-                text += " -"
+                text += f" <{self.settings.precip_prob_threshold}%"
             else:
-                text += f"\n{prob:g}%, {sum_:g} mm, {hours:g} hrs"
+                text += f"\n{prob:g}% | {sum_:g} mm | {hours:g} hrs"
 
             label = tk.Label(
                 self.gui.root,
