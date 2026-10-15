@@ -14,11 +14,13 @@ from .data_fetcher import DataFetcher
 from .gui_settings import GUISettings
 from .graphics import Graphics
 from .buttons.refresh_button import RefreshButton
+
 from .data_labels.date import DateLabels
 from .data_labels.weather_condition import WeatherConditionIcons
 from .data_labels.temperature import TemperatureLabels
 from .data_labels.humidity import HumidityLabels
 from .data_labels.precipitation import PrecipitationLabels
+from .data_labels.uv_index import UVILabels
 
 
 class AppGUI:
@@ -32,9 +34,10 @@ class AppGUI:
         self.graphics = Graphics()
         self.dates = DateLabels(self)
         self.weather_conditions = WeatherConditionIcons(self)
-        self.temperature = TemperatureLabels(self)
-        self.humidity = HumidityLabels(self)
-        self.precipitation = PrecipitationLabels(self)
+        self.temperatures = TemperatureLabels(self)
+        self.humidities = HumidityLabels(self)
+        self.precipitations = PrecipitationLabels(self)
+        self.uv_indices = UVILabels(self)
 
         self.loading_window = None
         self._show_loading_screen()
@@ -54,11 +57,14 @@ class AppGUI:
     def _draw_elements(self):
         """Draw visual elements to the screen."""
         self._draw_lines()
-        for labels in [self.dates,
-                       self.weather_conditions,
-                       self.temperature,
-                       self.humidity,
-                       self.precipitation]:
+        for labels in [
+            self.dates,
+            self.weather_conditions,
+            self.temperatures,
+            self.humidities,
+            self.precipitations,
+            self.uv_indices
+        ]:
             labels.draw()
         self.refresh_button = RefreshButton(self)
         self._destroy_loading_screen()

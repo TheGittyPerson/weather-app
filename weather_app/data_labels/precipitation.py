@@ -1,4 +1,4 @@
-"""A module to manage weather humidity visualization."""
+"""Contains the PrecipitationLabels class."""
 
 import tkinter as tk
 
