@@ -91,7 +91,7 @@ class HumidityLabels(DataLabels):
         if 60 < humidity <= 70:
             return 'Moderately High', '#fcba03'
         if 70 < humidity < 80:
-            return 'High', 'orange'
+            return 'High', '#fc7703'
         if 80 <= humidity:
             return 'Very High', 'red'
         raise RuntimeError("Shouldn't Happen")
