@@ -19,6 +19,15 @@ class DataLabels(ABC):
         """Draw data for all dates to screen."""
         raise NotImplementedError
 
+    def _create_text(self, *args, **kw) -> None:
+        """Draw text to screen. Same as ``self.gui.window.create_text()``."""
+        self.gui.window.create_text(*args, **kw)
+
+    def _posx(self, day_num: int) -> int:
+        """Get x position of an element based on day number."""
+        return (day_num + 0.5) * (self.settings.window_width
+                                  // self.settings.forecast_days)
+
     def _check_list[T](self, ls: list[T]) -> list[T]:
         """Check if the given list contains enough data after extracting.
 

@@ -1,22 +1,19 @@
-"""This is a module to display the dates one the WeatherApp window."""
+"""This is a module to display the dates on the window."""
 
 from datetime import datetime, timedelta
 
-from ..gui_settings import GUISettings
+from .data_labels import DataLabels
 
 
-class DateLabels:
-    def __init__(self, gui):
-        self.gui = gui
-        self.settings = GUISettings()
+class DateLabels(DataLabels):
+    """Class to display the dates on the window."""
 
     def draw(self):
         """Display dates in the window."""
         dates = self._get_dates()
         for i, date in enumerate(dates):
-            self.gui.window.create_text(
-                (i + 0.5) * (self.settings.window_width
-                             // self.settings.forecast_days),
+            self._create_text(
+                self._posx(i),
                 self.settings.date_posy,
                 text=self._get_formatted_date(date),
                 font=self.settings.date_font,

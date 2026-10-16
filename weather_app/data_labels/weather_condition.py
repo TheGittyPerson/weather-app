@@ -1,6 +1,4 @@
-"""
-A module to manage weather icon display.
-"""
+"""A module to manage weather icon display."""
 
 import tkinter as tk
 

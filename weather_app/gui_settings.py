@@ -73,7 +73,7 @@ class GUISettings:
 
         # Loading window
         self.loading_screen_title = "Please Wait..."
-        self.loading_screen_width = 800  # TODO: why app breaks when changed?
+        self.loading_screen_width = 800
         self.loading_screen_height = 480
         self.loading_screen_topmost = True
 
@@ -118,26 +118,24 @@ class GUISettings:
         self.humidity_bg = self.theme_bg
         self.humidity_font = ('Calibri', 14)
         self.humidity_fg = 'black'
-        self.humidity_posy = self.app_temperature_posy + 40
+        self.humidity_posy = self.app_temperature_posy + 55
         self.humidity_sev_font = ('Gill Sans MT', 13, 'bold')
-        self.humidity_sev_anchor = 'center'
-        self.humidity_sev_posy = self.humidity_posy + 60
+        self.humidity_sev_posy = self.humidity_posy + 50
 
         # Precipitation
         self.precip_prob_threshold = 5  # percent
         self.precip_bg = self.theme_bg
         self.precip_font = ('Calibri', 14)
         self.precip_fg = 'black'
-        self.precip_posy = self.humidity_sev_posy + 50
+        self.precip_posy = self.humidity_sev_posy + 40
 
         # UV index
         self.uvi_bg = self.theme_bg
         self.uvi_font = ('Calibri', 14)
         self.uvi_fg = 'black'
-        self.uvi_posy = self.precip_posy + 50
+        self.uvi_posy = self.precip_posy + 65
         self.uvi_sev_font = ('Gill Sans MT', 13, 'bold')
-        self.uvi_sev_anchor = 'center'
-        self.uvi_sev_posy = self.uvi_posy + 25
+        self.uvi_sev_posy = self.uvi_posy + 40
 
         # Wind
         self.wind_bg = self.theme_bg

@@ -9,6 +9,11 @@ if TYPE_CHECKING:
     from ..app_gui import AppGUI
 
 
+# I didn't bother rewriting this using the DataLabels base class because some
+# of the text elements require the use of tk.Label to create the element
+# object instead of _create_text() from DataLabels. That's because I used
+# winfo_reqwidth() of the objects to determine the x positions. _create_text()
+# doesn't return an object for us to do this. Plus this works fine so
 class TemperatureLabels:
     def __init__(self, gui: AppGUI):
         """Initialize self."""

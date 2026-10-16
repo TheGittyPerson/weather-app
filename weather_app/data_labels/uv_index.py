@@ -15,30 +15,24 @@ class UVILabels(DataLabels):
 
         for day_num, uvi, sev_label in zip(
                 range(self.settings.forecast_days), uvis, uvi_sevs):
-
-            posx = (
-                    (day_num + 0.5) * (self.settings.window_width
-                                       // self.settings.forecast_days)
+            self._create_text(
+                self._posx(day_num),
+                self.settings.uvi_posy,
+                font=self.settings.uvi_font + ("bold",),
+                text="UV Index:",
+                fill=self.settings.uvi_fg,
             )
-            uvi_label = tk.Label(
-                self.gui.root,
+            self._create_text(
+                self._posx(day_num),
+                self.settings.uvi_posy + 20,
                 font=self.settings.uvi_font,
-                text=f"UV Index: {uvi:g}",
-                fg=self.settings.uvi_fg,
-                bg=self.settings.uvi_bg,
+                text=f"{uvi:g}",
+                fill=self.settings.uvi_fg,
             )
-            uvi_label.update_idletasks()
-            uvi_label.place(
-                x=posx,
-                y=self.settings.uvi_posy,
-                anchor="center"
-            )
-
-            sev_label.update_idletasks()
             sev_label.place(
-                x=posx,
+                x=self._posx(day_num),
                 y=self.settings.uvi_sev_posy,
-                anchor=self.settings.uvi_sev_anchor
+                anchor="center"
             )
 
     def _get_uv_indices(self) -> list[float]:

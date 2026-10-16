@@ -1,8 +1,6 @@
 """A module to manage weather humidity visualization."""
 
-import tkinter as tk
 from datetime import datetime, timedelta
-from typing import cast, Literal
 
 from .data_labels import DataLabels
 
@@ -15,55 +13,30 @@ class HumidityLabels(DataLabels):
         humidities, average_humidities = self._get_humidity()
 
         for day_num, humidity in enumerate(humidities):
-            humidity_posx = (
-                (day_num + 0.5)
-                * (self.settings.window_width // self.settings.forecast_days)
+            self._create_text(
+                self._posx(day_num),
+                self.settings.humidity_posy,
+                font=self.settings.humidity_font + ("bold",),
+                text="Humidity:",
+                fill=self.settings.humidity_fg,
             )
-            humidity_level_posx = humidity_posx
-
-            self._draw_humidity_severity(average_humidities[day_num],
-                                         humidity_level_posx)
-
-            humidity_label = tk.Label(
-                self.gui.root,
+            self._create_text(
+                self._posx(day_num),
+                self.settings.humidity_posy + 25,
                 font=self.settings.humidity_font,
-                text=f'Humidity:\n{humidity} '
-                     f'({average_humidities[day_num]}%)',
-                fg=self.settings.humidity_fg,
-                bg=self.settings.humidity_bg,
+                text=f'{humidity} ({average_humidities[day_num]}%)',
+                fill=self.settings.humidity_fg,
             )
 
-            humidity_label.update_idletasks()
-
-            humidity_label.place(
-                x=humidity_posx - humidity_label.winfo_reqwidth() // 2,
-                y=self.settings.humidity_posy
+            label_str, label_fill = (
+                self._get_humidity_severities(average_humidities[day_num]))
+            self._create_text(
+                self._posx(day_num),
+                self.settings.humidity_sev_posy,
+                font=self.settings.humidity_sev_font,
+                text=label_str,
+                fill=label_fill,
             )
-
-    def _draw_humidity_severity(self, humidity: int, posx: int):
-        """Draw humidity severities (ex: very humid, moderately humid)
-         to the screen.
-         """
-        label_str, label_fg = self._get_humidity_severities(humidity)
-        humidity_level_label = tk.Label(
-            self.gui.root,
-            font=self.settings.humidity_sev_font,
-            text=label_str,
-            fg=label_fg,
-            bg=self.settings.humidity_bg,
-        )
-
-        humidity_level_label.update_idletasks()
-
-        self.settings.humidity_sev_anchor = cast(
-            Literal["nw", "n", "ne", "w", "center", "e", "sw", "s", "se"],
-            self.settings.humidity_sev_anchor,
-        )
-        humidity_level_label.place(
-            x=posx,
-            y=self.settings.humidity_sev_posy,
-            anchor=self.settings.humidity_sev_anchor,
-        )
 
     def _get_humidity(self) -> tuple[list[str], list[int]]:
         """Get the humidity for each forecast day."""

@@ -1,7 +1,5 @@
 """Contains the PrecipitationLabels class."""
 
-import tkinter as tk
-
 from .data_labels import DataLabels
 
 
@@ -21,30 +19,24 @@ class PrecipitationLabels(DataLabels):
                     precip_hours
                 )):
 
-            posx = (
-                (day_num + 0.5) * (self.settings.window_width
-                                   // self.settings.forecast_days)
+            self._create_text(
+                self._posx(day_num),
+                self.settings.precip_posy,
+                font=self.settings.precip_font + ("bold",),
+                text="Precipitation:",
+                fill=self.settings.precip_fg,
             )
 
-            text = "Precipitation:"
             if prob < self.settings.precip_prob_threshold:
-                text += f" <{self.settings.precip_prob_threshold}%"
+                text = f"<{self.settings.precip_prob_threshold}%"
             else:
-                text += f"\n{prob:g}% | {sum_:g} mm | {hours:g} hrs"
-
-            label = tk.Label(
-                self.gui.root,
+                text = f"{prob:g}% | {sum_:g} mm | {hours:g} hrs"
+            self._create_text(
+                self._posx(day_num),
+                self.settings.precip_posy + 25,
                 font=self.settings.precip_font,
                 text=text,
-                fg=self.settings.precip_fg,
-                bg=self.settings.precip_bg,
-            )
-
-            label.update_idletasks()
-            label.place(
-                x=posx,
-                y=self.settings.precip_posy,
-                anchor="center"
+                fill=self.settings.precip_fg,
             )
 
     def _get_precip_probs(self) -> list[int]:

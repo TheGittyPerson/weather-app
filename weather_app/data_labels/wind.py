@@ -1,7 +1,5 @@
 """Contains the UVILabels class."""
 
-import tkinter as tk
-
 from .data_labels import DataLabels
 
 
@@ -15,34 +13,19 @@ class WindLabels(DataLabels):
 
         for day_num, speed, direction_text in zip(
                 range(self.settings.forecast_days), speeds, directions):
-
-            posx = (
-                    (day_num + 0.5) * (self.settings.window_width
-                                       // self.settings.forecast_days)
-            )
-
-            tk.Label(
-                self.gui.root,
+            self._create_text(
+                self._posx(day_num),
+                self.settings.wind_posy,
                 font=self.settings.wind_font + ("bold",),
                 text=f"Max wind speed:",
-                fg=self.settings.wind_fg,
-                bg=self.settings.window_bg,
-            ).place(
-                x=posx,
-                y=self.settings.wind_posy,
-                anchor="center"
+                fill=self.settings.wind_fg,
             )
-
-            tk.Label(
-                self.gui.root,
+            self._create_text(
+                self._posx(day_num),
+                self.settings.wind_posy + 25,
                 font=self.settings.wind_font,
                 text=f"{speed:g} km/h | {direction_text}",
-                fg=self.settings.wind_fg,
-                bg=self.settings.window_bg,
-            ).place(
-                x=posx,
-                y=self.settings.wind_posy + 25,
-                anchor="center"
+                fill=self.settings.wind_fg,
             )
 
     def _get_wind_speeds(self) -> list[float]:
