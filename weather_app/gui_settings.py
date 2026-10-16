@@ -87,9 +87,9 @@ class GUISettings:
         self.icons_posy = self.date_posy + 25
 
         # Weather descriptions
-        self.descriptions_bg = self.theme_bg
         self.descriptions_font = ('Gill Sans MT', 14)
         self.descriptions_fg = 'black'
+        self.descriptions_bg = self.theme_bg
         self.descriptions_posy = self.icons_posy + 125
 
         # Temperatures
@@ -115,7 +115,6 @@ class GUISettings:
         self.app_temperature_posy = self.feels_like_label_posy
 
         # Humidity
-        self.humidity_bg = self.theme_bg
         self.humidity_font = ('Calibri', 14)
         self.humidity_fg = 'black'
         self.humidity_posy = self.app_temperature_posy + 55
@@ -124,7 +123,6 @@ class GUISettings:
 
         # Precipitation
         self.precip_prob_threshold = 5  # percent
-        self.precip_bg = self.theme_bg
         self.precip_font = ('Calibri', 14)
         self.precip_fg = 'black'
         self.precip_posy = self.humidity_sev_posy + 40
@@ -138,7 +136,6 @@ class GUISettings:
         self.uvi_sev_posy = self.uvi_posy + 40
 
         # Wind
-        self.wind_bg = self.theme_bg
         self.wind_font = ('Calibri', 14)
         self.wind_fg = 'black'
         self.wind_posy = self.uvi_sev_posy + 40
