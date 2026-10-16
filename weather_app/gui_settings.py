@@ -128,16 +128,22 @@ class GUISettings:
         self.precip_bg = self.theme_bg
         self.precip_font = ('Calibri', 14)
         self.precip_fg = 'black'
-        self.precip_posy = self.humidity_sev_posy + 40
+        self.precip_posy = self.humidity_sev_posy + 50
 
         # UV index
         self.uvi_bg = self.theme_bg
         self.uvi_font = ('Calibri', 14)
         self.uvi_fg = 'black'
-        self.uvi_posy = self.precip_posy + 45
+        self.uvi_posy = self.precip_posy + 50
         self.uvi_sev_font = ('Gill Sans MT', 13, 'bold')
         self.uvi_sev_anchor = 'center'
         self.uvi_sev_posy = self.uvi_posy + 25
+
+        # Wind
+        self.wind_bg = self.theme_bg
+        self.wind_font = ('Calibri', 14)
+        self.wind_fg = 'black'
+        self.wind_posy = self.uvi_sev_posy + 40
 
         # Refresh icon
         self.refresh_icon_posx = self.window_width - 40

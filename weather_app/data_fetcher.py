@@ -60,6 +60,7 @@ class DataFetcher:
                 'precipitation_probability_mean',
                 'uv_index_max',
                 'wind_speed_10m_max',
+                'wind_direction_10m_dominant',
             ]
 
             self.latitude, self.longitude = self._get_coordinates()
@@ -131,7 +132,8 @@ class DataFetcher:
                 daily_precipitation_probability_mean,
                 daily_uv_index_max,
                 daily_wind_speed_10m_max,
-            ) = [self._get_vars_as_list(daily, i) for i in range(10)]
+                daily_wind_direction_10m,
+            ) = [self._get_vars_as_list(daily, i) for i in range(11)]
             
             self.daily_data = {
                 'date': pd.date_range(
@@ -150,7 +152,8 @@ class DataFetcher:
                 'precipitation_hours': daily_precipitation_hours,
                 'precipitation_probability_mean':
                     daily_precipitation_probability_mean,
-                'wind_speed_10m_max': daily_wind_speed_10m_max
+                'wind_speed_10m_max': daily_wind_speed_10m_max,
+                'wind_direction_10m': daily_wind_direction_10m,
             }
 
         except requests.exceptions.ConnectionError:
