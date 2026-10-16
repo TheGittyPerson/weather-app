@@ -1,5 +1,7 @@
 # Weather App
 
+<img src="weather_app/assets/screenshots/screenshot.jpg" alt="Screenshot of app">
+
 A desktop weather app with a Tkinter GUI that fetches forecasts from Open-Meteo
 and displays daily conditions, temperatures, humidity, and more.
 
