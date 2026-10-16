@@ -1,4 +1,4 @@
-"""Contains the UVILabels class."""
+"""Contains the WindLabels class."""
 
 from .data_labels import DataLabels
 

@@ -140,6 +140,11 @@ class GUISettings:
         self.wind_fg = 'black'
         self.wind_posy = self.uvi_sev_posy + 40
 
+        # Pressure
+        self.pressure_font = ('Calibri', 14)
+        self.pressure_fg = 'black'
+        self.pressure_posy = self.wind_posy + 70
+
         # Refresh icon
         self.refresh_icon_posx = self.window_width - 40
         self.refresh_icon_posy = self.window_height - 40

@@ -11,6 +11,7 @@ from . import data_fetcher
 from . import gui_settings
 from . import graphics
 from .data_fetcher import DataFetcher
+from .data_labels.pressure import PressureLabels
 from .data_labels.wind import WindLabels
 from .gui_settings import GUISettings
 from .graphics import Graphics
@@ -34,6 +35,7 @@ class AppGUI:
         self.precipitations = PrecipitationLabels(self)
         self.uv_indices = UVILabels(self)
         self.wind = WindLabels(self)
+        self.pressure = PressureLabels(self)
 
         self.loading_window = None
         self._show_loading_screen()
@@ -61,6 +63,7 @@ class AppGUI:
             self.precipitations,
             self.uv_indices,
             self.wind,
+            self.pressure
         ]:
             labels.draw()
         self.refresh_button = RefreshButton(self)
