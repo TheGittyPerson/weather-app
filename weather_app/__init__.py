@@ -1,6 +1,6 @@
 """WeatherApp package."""
 
-__version__ = "2024.1.1"
+__version__ = "2026.0.0"
 
 from .app_gui import AppGUI
 from .data_fetcher import DataFetcher
